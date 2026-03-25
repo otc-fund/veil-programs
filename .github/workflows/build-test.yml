@@ -1,0 +1,22 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: Install Anchor
+        run: cargo install --git https://github.com/coral-xyz/anchor avm --force
+      - name: Build
+        run: anchor build
+      - name: Test
+        run: anchor test
